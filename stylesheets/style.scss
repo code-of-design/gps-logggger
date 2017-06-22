@@ -82,9 +82,11 @@ $pantone-blue-bell: #92B5D9;
 }
 
 .btn{
+	border: none;
 	background-color: $page-background-color;
 	font-size: 36px;
 	letter-spacing: 2px;
+	font-family: $sans-bold;
 }
 
 .page-header{
@@ -102,6 +104,12 @@ $pantone-blue-bell: #92B5D9;
 	@include page-border(20px, 20px);
 }
 
+// Google maps
+#minimap{
+	width: 100%;
+	height: 250px;
+}
+
 .page-content{
 	margin: 0px;
 	padding: 0px;
@@ -109,10 +117,13 @@ $pantone-blue-bell: #92B5D9;
 
 .current-position{
 	@include page-border(20px, 20px);
+
+	p{
+		margin-bottom: 10px;
+	}
 }
 
 .current-position__label{
-	margin-bottom: 10px;
 }
 
 .begin-btn{
@@ -124,10 +135,5 @@ $pantone-blue-bell: #92B5D9;
 	width: 100%;
 	padding: 60px 60px;
 	font-size: 48px;
-}
-
-// Google maps
-#minimap{
-	width: 100%;
-	height: 300px;
+	color: $pantone-blue-bell;
 }

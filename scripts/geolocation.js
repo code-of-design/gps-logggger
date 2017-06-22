@@ -3,34 +3,28 @@
 (function($){
   "use strict";
 
-  var latitude; // 緯度.
-  var longitude; // 経度.
-  var latitude_id;
-  var longitude_id;
+  var latitude;
+  var longitude;
 
   // 現在位置を取得する.
-  // getCurrentPosition() は低精度の結果を使いなるべく速く応答しようとします.
   (function getCurrentPosition() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        // 緯度経度.
+        // 緯度経度を取得する.
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
-        latitude = latitude.toFixed(3);
-        longitude = longitude.toFixed(3);
-        latitude = parseFloat(latitude);
-        longitude = parseFloat(longitude);
-        latitude_id = document.getElementById("latitude");
-        longitude_id = document.getElementById("longitude");
-        // Google Mapsを初期化する.
+        latitude = parseFloat(latitude.toFixed(3)); // 少数を正規化する.
+        longitude = parseFloat(longitude.toFixed(3)); // 少数を正規化する.
+
+        var latitude_id = document.getElementById("latitude");
+        var longitude_id = document.getElementById("longitude");
+
+        // Google Mapsを表示する.
         initMap();
         // 現在位置を表示する.
+        console.log(latitude_id, longitude_id);
         viewCurrentPosition(latitude_id, longitude_id,latitude, longitude);
       }, errorGetCurrentPosition);
-    }
-    else {
-      console.log("HTML5 Geolocation API is not available!");
-      return;
     }
   })();
 
@@ -41,15 +35,13 @@
   }
 
   // 現在位置の取得エラーハンドリング.
-function errorGetCurrentPosition(error) {
-  // console.log(error.code);
-  // console.log(error.message);
-}
+  function errorGetCurrentPosition(error) {
+    console.log(error.code);
+    console.log(error.message);
+  }
 
+  // Google Mapsの表示.
   function initMap() {
-    console.log(latitude);
-    console.log(longitude);
-
     var uluru = {lat: latitude, lng: longitude};
     var map = new google.maps.Map(document.getElementById('minimap'), {
       zoom: 16,
@@ -61,12 +53,14 @@ function errorGetCurrentPosition(error) {
     });
   }
 
-  /*
-  // 距離測定
+  // 2点距離を測定する.
   // https://developers.google.com/maps/documentation/javascript/geometry?hl=ja
-  var tokyo = new google.maps.LatLng(35.681382, 139.76608399999998);
-  var osaka = new google.maps.LatLng(34.701909, 135.49497700000006);
-  var distance = google.maps.geometry.spherical.computeDistanceBetween(tokyo, osaka);
-  console.log(distance + " m");
-  */
+  function getBetweenDistance(lat_begin, lng_begin, lat_end, lng_end){
+    var begin_position = new google.maps.LatLng(lat_begin, lng_begin);
+    var end_position = new google.maps.LatLng(lat_end, lng_end);
+    var distance = google.maps.geometry.spherical.computeDistanceBetween(begin_position, end_position);
+
+    return distance;
+  }
+
 })(jQuery);
