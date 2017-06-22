@@ -49,65 +49,60 @@ table {
 
 /*----------------------------------------------------------------------------*/
 
+// Font
 $sans-bold: "SourceHanSansJP-Bold";
 $sans-regular: "SourceHanSansJP-Regular";
-$page-border-size: 5px;
-$page-background-color: #fff;
-
-$pantone-blue-bell: #92B5D9;
-
-@mixin page-border($padding-top, $padding-left){
-	margin: 0px;
-	border: $page-border-size solid $pantone-blue-bell;
-	border-bottom: hidden;
-	padding: $padding-top $padding-left;
-}
-
-/* Bold */
-@font-face{
+@font-face{ // Bold.
 	font-family: $sans-bold;
 	src: url("../data/SourceHanSansJP/SourceHanSansJP-Bold.otf");
 }
-/* Regular */
-@font-face{
+@font-face{// Regular.
 	font-family: $sans-regular;
 	src: url("../data/SourceHanSansJP/SourceHanSansJP-Regular.otf");
 }
 
-.page{
-	font-family: $sans-bold;
-	letter-spacing: 2px;
-	font-size: 28px;
-	color: $pantone-blue-bell;
+// Color
+$pantone-blue-bell: #92B5D9;
+$pantone-white-c: #FFFFFF;
+
+// .Page
+$page-border-size: 5px;
+$page-letter-spacing: 2px;
+$page-padding: 20px;
+
+@mixin page-border($padding-top-bottom, $padding-left-right){
+	margin: 0px;
+	border: $page-border-size solid $pantone-blue-bell;
+	border-bottom: hidden;
+	padding: $padding-top-bottom $padding-left-right;
+}
+
+body{
+	background-color: $pantone-blue-bell;
 }
 
 .btn{
 	border: none;
-	background-color: $page-background-color;
+	background-color: $pantone-white-c;
 	font-size: 36px;
-	letter-spacing: 2px;
+	letter-spacing: $page-letter-spacing;
 	font-family: $sans-bold;
 }
 
-.page-header{
+.page{
+	font-family: $sans-bold;
+	letter-spacing: $page-letter-spacing;
+	font-size: 28px;
+	color: $pantone-white-c;
+}
+
+.page-header{ // 初期化.
 	margin: 0px;
 	padding: 0px;
-}
-
-.logo{
-	@include page-border(10px, 20px);
-	border-bottom: $page-border-size solid $pantone-blue-bell;
-	font-size: 24px;
-}
-
-.current-time{
-	@include page-border(20px, 20px);
-}
-
-// Google maps
-#minimap{
-	width: 100%;
-	height: 250px;
+	.logo{
+		@include page-border($page-padding, $page-padding);
+		border-bottom: $page-border-size solid $pantone-blue-bell;
+	}
 }
 
 .page-content{
@@ -115,25 +110,49 @@ $pantone-blue-bell: #92B5D9;
 	padding: 0px;
 }
 
-.current-position{
-	@include page-border(20px, 20px);
-
-	p{
-		margin-bottom: 10px;
+// Google maps
+.google-map{
+	padding: 0px $page-padding;
+	#map{
+		height: 250px;
 	}
 }
 
-.current-position__label{
+// Content Label.
+$content-label-size: 20px;
+
+.current-time{
+	@include page-border(0px, $page-padding);
+	padding-top: $page-padding;
+	p{
+		margin-bottom: 10px;
+	}
+	.current-time__label{
+		font-size: $content-label-size;
+	}
+	#current-time__time{
+		font-size: 28px;
+		margin-bottom: 0px;
+	}
+}
+
+.current-position{
+	@include page-border($page-padding, $page-padding);
+	p{
+		margin-bottom: 10px;
+	}
+	.current-position__label{
+		font-size: $content-label-size;
+	}
 }
 
 .begin-btn{
-	@include page-border(0px, 0px);
+	@include page-border(0px, $page-padding);
 	border-bottom: $page-border-size solid $pantone-blue-bell;
-}
-
-.begin-btn__btn{
-	width: 100%;
-	padding: 60px 60px;
-	font-size: 48px;
-	color: $pantone-blue-bell;
+	.begin-btn__btn{
+		width: 100%;
+		padding: 60px 60px;
+		font-size: 36px;
+		color: $pantone-blue-bell;
+	}
 }

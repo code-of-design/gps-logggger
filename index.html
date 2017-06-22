@@ -5,34 +5,37 @@
 		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
 		<title>GPS-Logggger v1.0</title>
 		<meta name="description" content="位置情報と移動距離を記録するGPSロガー">
-		<!-- Bootstrap 3.3.7 -->
-		<link rel="stylesheet" href="stylesheets/bootstrap.min.css" type="text/css">
 		<link rel="stylesheet" href="stylesheets/style.min.css" type="text/css">
 	</head>
 	<body>
 		<div class="page">
 			<header class="page-header">
 				<div class="logo">GPS-LOGGER v1.0</div>
-				<div id="minimap"></div>
-				<!--
-				<div class="current-time">
-					<p class="current-time__label">現在時刻</p>
-					<div class="current-time__time"></div>
-				</div> <!-- .current-time -->
 			</header> <!-- .page-header -->
 			<main class="page-content">
+				<!-- Google Maps -->
+				<div class="google-map">
+					<div id="map"></div>
+				</div>
+				<div class="current-time">
+					<p class="current-time__label">CURRENT TIME</p>
+					<p id="current-time__time"></p>
+				</div> <!-- .current-time -->
 				<div class="current-position">
-					<p class="current-position__label">現在位置</p>
-					<div id="latitude"></div>
-					<div id="longitude"></div>
+					<p class="current-position__label">CURRENT POSITION</p>
+					<p id="latitude">Latitude:&nbsp;</p>
+					<p id="longitude">Longitude:&nbsp;</p>
 				</div>
 				<div class="begin-btn">
-					<button class="btn begin-btn__btn">計測開始</button>
+					<button class="btn begin-btn__btn">位置情報を記録する</button>
 				</div>
 			</main> <!-- .page-conten -->
+			<footer class="page-footer">
+
+			</footer>
 		</div> <!-- .page -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlbFWm4wv4-dt6lgdgH-ghw6ea5FR4NT8&libraries=geometr">
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCblR2AW8TrI2-2sGl-13TVcEgHP9VzFhg&libraries=geometr">
     </script>
 		<script src="scripts/geolocation.js"></script>
 	</body>
