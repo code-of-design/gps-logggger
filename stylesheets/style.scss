@@ -66,9 +66,9 @@ $pantone-blue-bell: #92B5D9;
 $pantone-white-c: #FFFFFF;
 
 // .Page
-$page-border-size: 5px;
+$page-border-size: 0px;
 $page-letter-spacing: 2px;
-$page-padding: 20px;
+$page-padding: 25px;
 
 @mixin page-border($padding-top-bottom, $padding-left-right){
 	margin: 0px;
@@ -92,7 +92,7 @@ body{
 .page{
 	font-family: $sans-bold;
 	letter-spacing: $page-letter-spacing;
-	font-size: 28px;
+	font-size: 20px;
 	color: $pantone-white-c;
 }
 
@@ -102,6 +102,13 @@ body{
 	.logo{
 		@include page-border($page-padding, $page-padding);
 		border-bottom: $page-border-size solid $pantone-blue-bell;
+		h1{
+			margin-bottom: 10px;
+			font-size: 28px;
+		}
+	}
+	.logo__label{
+		font-size: 16px;
 	}
 }
 
@@ -114,35 +121,42 @@ body{
 .google-map{
 	padding: 0px $page-padding;
 	#map{
-		height: 250px;
+		height: 200px;
 	}
 }
 
-// Content Label.
-$content-label-size: 20px;
-
-.current-time{
-	@include page-border(0px, $page-padding);
-	padding-top: $page-padding;
+.log{
+	@include page-border($page-padding, $page-padding);
+	padding-bottom: 0px;
 	p{
 		margin-bottom: 10px;
 	}
-	.current-time__label{
-		font-size: $content-label-size;
+	.flexbox{
+		display: flex;
+		margin-bottom: 20px;
 	}
-	#current-time__time{
-		font-size: 28px;
-		margin-bottom: 0px;
+	.box{
+		margin-right: 20px;
+	}
+	.label{
+		margin-bottom: 10px;
 	}
 }
 
 .current-position{
-	@include page-border($page-padding, $page-padding);
-	p{
-		margin-bottom: 10px;
-	}
-	.current-position__label{
-		font-size: $content-label-size;
+
+}
+
+.lapsed-time{
+		#lapsed-time__time{
+			font-size: 36px;
+		}
+}
+
+.movement-distance{
+	#movement-distance__distance{
+		font-size: 36px;
+		display: inline-block;;
 	}
 }
 
@@ -151,7 +165,7 @@ $content-label-size: 20px;
 	border-bottom: $page-border-size solid $pantone-blue-bell;
 	.begin-btn__btn{
 		width: 100%;
-		padding: 60px 60px;
+		padding: 20px 20px;
 		font-size: 36px;
 		color: $pantone-blue-bell;
 	}

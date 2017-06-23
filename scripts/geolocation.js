@@ -12,7 +12,7 @@
 
   window.onload = function(){
     // 現在時刻を取得する.
-    setInterval(getCurrentTime, 1000);
+    // setInterval(getCurrentTime, 1000);
     // 位置情報を監視する.
     watchPosition();
   };
@@ -63,8 +63,8 @@
 
   // 現在位置を表示する.
   function viewCurrentPosition(latitude_id, longitude_id, latitude, longitude) {
-    latitude_id.innerHTML += latitude;
-    longitude_id.innerHTML += longitude;
+    latitude_id.innerHTML = "LAT: " + latitude;
+    longitude_id.innerHTML = "LNG: " + longitude;
   }
 
   // 現在時刻を取得する.
