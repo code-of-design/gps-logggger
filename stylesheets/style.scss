@@ -64,6 +64,7 @@ $sans-regular: "SourceHanSansJP-Regular";
 // Color
 $pantone-blue-bell: #92B5D9;
 $pantone-white-c: #FFFFFF;
+$pantone-paradise-green: #B2E79F;
 
 // .Page
 $page-border-size: 0px;
@@ -100,7 +101,7 @@ body{
 	margin: 0px;
 	padding: 0px;
 	.logo{
-		@include page-border($page-padding, $page-padding);
+		@include page-border(15px, $page-padding);
 		border-bottom: $page-border-size solid $pantone-blue-bell;
 		h1{
 			margin-bottom: 10px;
@@ -126,14 +127,14 @@ body{
 }
 
 .log{
-	@include page-border($page-padding, $page-padding);
+	@include page-border(15px, $page-padding);
 	padding-bottom: 0px;
 	p{
 		margin-bottom: 10px;
 	}
 	.flexbox{
 		display: flex;
-		margin-bottom: 20px;
+		margin-bottom: 15px;
 	}
 	.box{
 		margin-right: 20px;
@@ -145,6 +146,19 @@ body{
 
 .current-position{
 
+}
+
+.log-id{
+	#log-id__state{
+		background-color: $pantone-paradise-green;
+		padding: 5px;
+		font-size: 14px;
+	}
+	.state-icon{
+		font-size: 18px;
+		color: $pantone-white-c;
+		vertical-align: middle;
+	}
 }
 
 .lapsed-time{
