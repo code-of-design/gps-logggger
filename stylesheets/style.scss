@@ -123,6 +123,7 @@ body{
 	padding: 0px $page-padding;
 	#map{
 		height: 200px;
+		background-color: $pantone-white-c;
 	}
 }
 
@@ -137,7 +138,7 @@ body{
 		margin-bottom: 15px;
 	}
 	.box{
-		margin-right: 20px;
+		width: 50%;
 	}
 	.label{
 		margin-bottom: 10px;
@@ -149,10 +150,14 @@ body{
 }
 
 .log-id{
+	#log-id__id{
+		font-size: 16px;
+	}
 	#log-id__state{
-		background-color: $pantone-paradise-green;
-		padding: 5px;
 		font-size: 14px;
+		padding: 6px;
+		margin-right: 112px;
+		background-color: $pantone-paradise-green;
 	}
 	.state-icon{
 		font-size: 18px;

@@ -3,28 +3,35 @@
 (function($){
   "use strict";
 
-  var latitude = 0.0; // 緯度.
-  var longitude = 0.0; // 経度.
-  var latitude_log = []; // 緯度ログ.
-  var longitude_log = []; // 経度ログ.
+  // SET UP
+  var latitude = null; // 緯度.
+  var longitude = null; // 経度.
+  var latitude_storage = []; // 緯度ストレージ.
+  var longitude_storage = []; // 経度ストレージ.
   var lapsed_time = {
     hour: 0,
     minute: 0,
     second: 0
   }; // 経過時間.
   var distance = 0; // 移動距離.
-  var distance_log = []; // 移動距離ログ.
+  var distance_storage = []; // 移動距離ストレージ.
 
-  var latitude_id = document.getElementById("latitude");
-  var longitude_id = document.getElementById("longitude");
-  var minimap_id = document.getElementById("map");
-  var current_time_id = document.getElementById("current-time__time");
-  var lapsed_time_id = document.getElementById("lapsed-time__time");
+  // Dom id
+  var latitude_id = document.getElementById("latitude"); // 緯度id.
+  var longitude_id = document.getElementById("longitude"); // 経度id.
+  var minimap_id = document.getElementById("map"); // Google Mapid.
+  var lapsed_time_id = document.getElementById("lapsed-time__time"); // 経過時間id.
 
-  // SET UP
+  // DRAW
   window.onload = function(){
     // 現在位置を取得する
     getCurrentPosition();
+
+    // 位置情報を記録する
+    $(".begin-btn__btn").click(function(){
+      setInterval(getLapsedTime, 1000); // 経過時間を取得する.
+      watchPosition(); // 位置情報を監視する.
+    });
   };
 
   // 現在位置を取得する
@@ -55,34 +62,19 @@
         // 緯度経度を正規化する
         latitude = parseFloat(latitude.toFixed(3));
         longitude = parseFloat(longitude.toFixed(3));
+        // 位置情報をストレージに追加する
+        addPositionToStorage(latitude, longitude, latitude_storage, longitude_storage);
         // 現在位置を表示する
         viewCurrentPosition(latitude_id, longitude_id, latitude, longitude);
-        // 緯度経度をログする.
-        if (latitude_log.length > 0) {
-          if (latitude_log[latitude_log.length] >= (latitude+0.05) ||
-          latitude_log[latitude_log.length] <= (latitude-0.05)) {
-            latitude_log.push(latitude);
-            // Google Mapsを表示する
-            viewMinimap(latitude, longitude);
-          }
-        }
-        else{
-          latitude_log.push(latitude);
-        }
-        if (longitude_log.length > 0) {
-          if (longitude_log[longitude_log.length] >= (longitude+0.05) ||
-          longitude_log[longitude_log.length] <= (longitude-0.05)) {
-            longitude_log.push(longitude);
-            // Google Mapsを表示する
-            viewMinimap(latitude, longitude);
-          }
-        }
-        else {
-          longitude_log.push(longitude);
-        }
-        console.log(latitude_log, longitude_log);
       }, errorGetPosition);
     }
+  }
+
+  // 位置情報をストレージに追加する
+  function addPositionToStorage(lat, lng, lat_storage, lng_storage){
+    lat_storage.push(lat);
+    lng_storage.push(lng);
+    console.log(lat_storage, lng_storage);
   }
 
   // 現在位置を表示する
@@ -160,8 +152,7 @@
     });
   }
 
-  // 2点距離を測定する
-  // https://developers.google.com/maps/documentation/javascript/geometry?hl=ja
+  // 2点距離を測定する [https://developers.google.com/maps/documentation/javascript/geometry?hl=ja]
   function getBetweenDistance(lat_begin, lng_begin, lat_end, lng_end){
     var begin_position = new google.maps.LatLng(lat_begin, lng_begin);
     var end_position = new google.maps.LatLng(lat_end, lng_end);
@@ -169,15 +160,4 @@
 
     return distance;
   }
-
-  // 位置情報を記録する
-  //function clickLogbtn(latitude, longitude){
-    $(".begin-btn__btn").click(function(){
-      // 経過時間を取得する
-      setInterval(getLapsedTime, 1000);
-      // 位置情報を監視する
-      watchPosition();
-    });
-  //}
-
 })(jQuery);
