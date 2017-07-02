@@ -21,16 +21,15 @@
   var longitude_id = document.getElementById("longitude"); // 経度id.
   var googlemap_id = document.getElementById("google-map__map"); // Google Mapid.
   var lapsed_time_id = document.getElementById("lapsed-time__time"); // 経過時間id.
+  var recording_btn_id = $(".recording-btn__btn");
 
   // DRAW
   window.onload = function(){
     getCurrentPosition(); // 現在位置を取得する.
-
-    $(".begin-btn__btn").click(function(){ // 位置情報を記録する.
+    recording_btn_id.click(function(){ // 位置情報を記録する.
       setInterval(getLapsedTime, 1000); // 経過時間を取得する.
       setInterval(getCurrentPosition, 5000); // 現在位置を取得する.
     });
-
   };
 
   // 現在位置を取得する
@@ -63,23 +62,31 @@
     var length = lat_storage.length;
     var lat_d = lat_storage[length-1] - lat;
     var lng_d = lng_storage[length-1] - lng;
+    var d = 0.005;
     if (length == 0) {
       lat_storage.push(lat);
       lng_storage.push(lng);
       viewGooglemap(lat, lng); // Google Mapsを表示する.
     }
-    else if (lat_d >= 0.02 || lat_d <= -0.02 ||
-      lng_d >= 0.02 || lng_d <= -0.02) {
+    else if ((lat_d >= d) || (lat_d <= (-1)*d ) || (lng_d >= d) || (lng_d <= (-1)*d)) {
       lat_storage.push(lat);
       lng_storage.push(lng);
-      console.log("differ: ",lat_d, lng_d);
+      viewGooglemap(lat, lng); // Google Mapsを表示する.
+      console.log("PUSH: LAT LNG");
     }
-    console.log(lat_storage, lng_storage);
+    viewLatLngStorage(latitude_storage, longitude_storage);
+    console.log("differ:",lat_d, lng_d,"storage:",lat_storage,lng_storage);
   }
 
   // 位置情報取得のエラーハンドリング
   function errorGetPosition(error) {
     alert(error.code + ": " + error.message);
+  }
+
+  // 位置情報のストレージを表示する.
+  function viewLatLngStorage(lat_storage, lng_storage){
+    var lat_lng_storage_id = document.getElementById("lat-lng-storage");
+    lat_lng_storage_id.innerHTML = lat_storage + "<br>" + lng_storage + "<br>";
   }
 
   // 位置情報を監視する

@@ -88,7 +88,7 @@ body{
 	margin-bottom: 15px;
 }
 .flexbox__item{
-	margin-right: 15px;
+	margin-right: 20px;
 	p{
 		margin-bottom: 10px;
 	}
@@ -96,6 +96,7 @@ body{
 
 // 現在位置
 .current-position{
+	width: 167px;
 	p{
 		font-size: 18px;
 	}
@@ -103,14 +104,16 @@ body{
 
 // 記録情報
 .recording-info{
+	margin-right: 0px;
 	p{
-		font-size: 14px;
+		font-size: 18px;
 	}
 	#recording-info__date{
 
 	}
 	#recording-info__mode{
 		padding: 6px;
+		font-size: 14px;
 		background-color: $pantone-paradise-green;
 		.state-icon{
 			font-size: 16px;
@@ -129,6 +132,7 @@ body{
 
 // 移動距離
 .movement-distance{
+	margin-right: 0px;
 	#movement-distance__distance{
 		font-size: 36px;
 		display: inline-block;
@@ -141,14 +145,19 @@ body{
 	letter-spacing: $page-letter-spacing;
 	font-family: $sans-bold;
 }
-.begin-btn{
+.recording-btn{
 	@include page-border(0px, $page-padding);
 	border-bottom: $page-border-size solid $pantone-blue-bell;
-	.begin-btn__btn{
+	.recording-btn__btn{
 		width: 100%;
 		padding: 20px 20px;
 		font-size: 36px;
 		background-color: $pantone-white-c;
 		color: $pantone-blue-bell;
 	}
+}
+
+// 位置情報ストレージ
+#lat-lng-storage{
+	@include page-border(15px, $page-padding);
 }
