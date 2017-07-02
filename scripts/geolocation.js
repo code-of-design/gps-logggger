@@ -1,4 +1,4 @@
-// GPS-Loggger v1.0
+// GPS LOGGER v1.0
 // https://github.com/code-of-design/gps-logggger-html5
 (function($){
   "use strict";
@@ -19,7 +19,7 @@
   // Dom id
   var latitude_id = document.getElementById("latitude"); // 緯度id.
   var longitude_id = document.getElementById("longitude"); // 経度id.
-  var minimap_id = document.getElementById("map"); // Google Mapid.
+  var googlemap_id = document.getElementById("google-map__map"); // Google Mapid.
   var lapsed_time_id = document.getElementById("lapsed-time__time"); // 経過時間id.
 
   // DRAW
@@ -47,7 +47,7 @@
         // 現在位置を表示する
         viewCurrentPosition(latitude_id, longitude_id,latitude, longitude);
         // Google Mapsを表示する
-        viewMinimap(latitude, longitude);
+        viewGooglemap(latitude, longitude);
       }, errorGetPosition); // 位置情報取得のエラーハンドリング.
     }
   }
@@ -89,23 +89,15 @@
     console.log(error.message);
   }
 
-  // 現在時刻を取得する
+  // 現在日時を取得する
   function getCurrentTime(){
-    var current_time = new Date();
-    var year = current_time.getFullYear();
-    var month = current_time.getMonth();
-    var day = current_time.getDate();
-    var hour = current_time.getHours();
-    var minute = current_time.getMinutes();
-    var second = current_time.getSeconds();
-    var time = hour+":"+minute+":"+second;
-    // 現在時刻を表示する
-    viewCurrentTime(time);
-  }
-
-  // 現在時刻を表示する
-  function viewCurrentTime(time){
-    current_time_id.innerHTML = time;
+    var current_date = new Date();
+    var year = current_date.getFullYear();
+    var month = current_date.getMonth();
+    var day = current_date.getDate();
+    var hour = current_date.getHours();
+    var minute = current_date.getMinutes();
+    var second = current_date.getSeconds();
   }
 
   // 経過時間を取得する
@@ -135,20 +127,20 @@
   }
 
   // Google Mapsを表示する
-  function viewMinimap(latitude, longitude) {
+  function viewGooglemap(latitude, longitude) {
     var current_position = {
       lat: latitude,
       lng: longitude
     };
     // Mapを宣言する
-    var minimap = new google.maps.Map(minimap_id, {
+    var googlemap = new google.maps.Map(googlemap_id, {
       zoom: 17,
       center: current_position
     });
     // マーカを表示する
     var marker = new google.maps.Marker({
       position: current_position,
-      map: minimap
+      map: googlemap
     });
   }
 

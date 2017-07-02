@@ -1,53 +1,5 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-/*----------------------------------------------------------------------------*/
+// GPS LOGGER v1.0
+// https://github.com/code-of-design/gps-logggger-html5
 
 // Font
 $sans-bold: "SourceHanSansJP-Bold";
@@ -82,14 +34,7 @@ body{
 	background-color: $pantone-blue-bell;
 }
 
-.btn{
-	border: none;
-	background-color: $pantone-white-c;
-	font-size: 36px;
-	letter-spacing: $page-letter-spacing;
-	font-family: $sans-bold;
-}
-
+// Page
 .page{
 	font-family: $sans-bold;
 	letter-spacing: $page-letter-spacing;
@@ -97,7 +42,8 @@ body{
 	color: $pantone-white-c;
 }
 
-.page-header{ // 初期化.
+// Header
+.page-header{
 	margin: 0px;
 	padding: 0px;
 	.logo{
@@ -113,6 +59,7 @@ body{
 	}
 }
 
+// Main
 .page-content{
 	margin: 0px;
 	padding: 0px;
@@ -121,64 +68,79 @@ body{
 // Google maps
 .google-map{
 	padding: 0px $page-padding;
-	#map{
+	#google-map__map{
 		height: 200px;
-		background-color: $pantone-white-c;
+		background-color: #dfdfdf;
 	}
 }
 
-.log{
+// 走行情報
+.traveling-info{
 	@include page-border(15px, $page-padding);
 	padding-bottom: 0px;
-	p{
-		margin-bottom: 10px;
-	}
-	.flexbox{
-		display: flex;
-		margin-bottom: 15px;
-	}
-	.box{
-		width: 50%;
-	}
 	.label{
 		margin-bottom: 10px;
 	}
 }
 
+.flexbox{
+	display: flex;
+	margin-bottom: 15px;
+}
+.flexbox__item{
+	margin-right: 15px;
+	p{
+		margin-bottom: 10px;
+	}
+}
+
+// 現在位置
 .current-position{
-
-}
-
-.log-id{
-	#log-id__id{
-		font-size: 16px;
-	}
-	#log-id__state{
-		font-size: 14px;
-		padding: 6px;
-		margin-right: 112px;
-		background-color: $pantone-paradise-green;
-	}
-	.state-icon{
+	p{
 		font-size: 18px;
-		color: $pantone-white-c;
-		vertical-align: middle;
 	}
 }
 
+// 記録情報
+.recording-info{
+	p{
+		font-size: 14px;
+	}
+	#recording-info__date{
+
+	}
+	#recording-info__state{
+		padding: 6px;
+		background-color: $pantone-paradise-green;
+		.state-icon{
+			font-size: 16px;
+			color: $pantone-white-c;
+			vertical-align: baseline;
+		}
+	}
+}
+
+// 経過時間
 .lapsed-time{
 		#lapsed-time__time{
 			font-size: 36px;
 		}
 }
 
+// 移動距離
 .movement-distance{
 	#movement-distance__distance{
 		font-size: 36px;
-		display: inline-block;;
+		display: inline-block;
 	}
 }
 
+// 記録Button
+.btn{
+	border: none;
+	letter-spacing: $page-letter-spacing;
+	font-family: $sans-bold;
+}
 .begin-btn{
 	@include page-border(0px, $page-padding);
 	border-bottom: $page-border-size solid $pantone-blue-bell;
@@ -186,6 +148,7 @@ body{
 		width: 100%;
 		padding: 20px 20px;
 		font-size: 36px;
+		background-color: $pantone-white-c;
 		color: $pantone-blue-bell;
 	}
 }
