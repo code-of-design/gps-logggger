@@ -20,8 +20,7 @@
   };
   var LAPSED_TIME_INTERVAL = 1000; // 経過時間インターバル.
   // 移動距離
-  var distance = 0; // 移動距離(Meter).
-  var distance_storage = []; // 移動距離ストレージ.
+  var movement_distance = 0; // 移動距離(Meter).
   // DOM ID
   var googlemap_id = document.getElementById("google-map__map"); // Google Mapid.
   var latitude_id = document.getElementById("latitude"); // 緯度id.
@@ -58,6 +57,7 @@
         viewCurrentPosition(latitude_id, longitude_id, latitude, longitude);
         // 位置情報をストレージに追加する.
         addCurrentPositionToStorage(latitude, longitude, latitude_storage, longitude_storage);
+        viewMovementDistance();
         console.log(latitude, longitude, getCurrentDateTime());
       }, errorGetPosition); // 位置情報取得のエラーハンドリング.
     }
@@ -139,7 +139,7 @@
     var m = current_date_time.getMonth()+1; // getMonth()は0~11表現.
     var d = current_date_time.getDate();
     var current_date = y+"/"+m+"/"+d;
-    console.log(y, m, d);
+
     return current_date;
   }
 
@@ -198,12 +198,38 @@
     });
   }
 
-  // 2点距離を測定する [https://developers.google.com/maps/documentation/javascript/geometry?hl=ja]
+  // 移動距離を取得する
+  function getMovementDistance(lat_storage, lng_storage, distance){
+    var storage_length = lat_storage.length;
+    var between_distance = 0;
+
+    if (storage_length <= 1) {
+      distance = 0;
+
+      return distance;
+    }
+
+    if (storage_length >= 2) {
+      between_distance = getBetweenDistance(lat_storage[storage_length-1], lng_storage[storage_length-1],
+      lat_storage[storage_length-2], lng_storage[storage_length-2]);
+      distance += between_distance;
+
+      return distance;
+    }
+  }
+
+  // 2点距離を測定する (https://developers.google.com/maps/documentation/javascript/geometry?hl=ja)
   function getBetweenDistance(lat_begin, lng_begin, lat_end, lng_end){
     var begin_position = new google.maps.LatLng(lat_begin, lng_begin);
     var end_position = new google.maps.LatLng(lat_end, lng_end);
     var distance = google.maps.geometry.spherical.computeDistanceBetween(begin_position, end_position);
 
     return distance;
+  }
+
+  // 移動距離を表示する
+  function viewMovementDistance(){
+    movement_distance = getMovementDistance(latitude_storage, longitude_storage, movement_distance);
+    movement_distance_id.innerHTML = movement_distance;
   }
 })(jQuery);
