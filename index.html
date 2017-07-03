@@ -3,58 +3,73 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-		<title>GPS-Logggger v1.0</title>
-		<meta name="description" content="位置情報と移動距離を記録するGPSロガー">
+		<title>GPS LOGGER v1.0</title>
+		<meta name="description" content="位置情報と移動距離を記録するGPSロガー「GPS Logggger v1.0」">
 		<script src="https://use.fontawesome.com/d79f914e86.js"></script>
+		<link rel="stylesheet" href="stylesheets/reset.css">
 		<link rel="stylesheet" href="stylesheets/style.min.css">
 	</head>
 	<body>
 		<div class="page">
 			<header class="page-header">
 				<div class="logo">
-						<h1>GPS-LOGGER v1.0</h1>
+						<h1 class="logo__logo">GPS LOGGER v1.0</h1>
 						<p class="logo__label">位置情報を記録しよう</p>
 				</div> <!-- .logo -->
 			</header> <!-- .page-header -->
 			<main class="page-content">
-				<!-- Google Maps -->
 				<div class="google-map">
-					<div id="map"></div>
+					<div id="google-map__map"></div>
 				</div> <!-- .google-map -->
-				<div class="log">
+				<div class="traveling-info">
 					<div class="flexbox">
-						<div class="box current-position">
+						<div class="flexbox__item current-position">
 							<div class="label">現在位置</div>
-							<p id="latitude">LAT:</p>
-							<p id="longitude">LNG:</p>
-						</div> <!-- .box -->
-						<div class="box log-id">
+							<p id="latitude"></p>
+							<p id="longitude"></p>
+						</div> <!-- .flexbox__item -->
+						<div class="flexbox__item recording-info">
 							<div class="label">記録情報</div>
-							<p id="log-id__id">ID: 000000</p>
-							<p id="log-id__state">
-								<i class="fa fa-check-circle-o state-icon" aria-hidden="true"></i>&nbsp;記録可能
+							<p id="recording-info__date"></p>
+							<p id="recording-info__mode">
+								<i class="fa fa-check-circle-o mode-icon" aria-hidden="true"></i>
+								記録可能
 							</p>
-						</div> <!-- .box -->
+						</div> <!-- .flexbox__item -->
 					</div> <!-- .flexbox -->
 					<div class="flexbox">
-						<div class="box lapsed-time">
+						<div class="flexbox__item lapsed-time">
 							<div class="label">経過時間</div>
 							<p id="lapsed-time__time">00:00:00</p>
-						</div> <!-- .box -->
-						<div class="box movement-distance">
+						</div> <!-- .flexbox__item -->
+						<div class="flexbox__item movement-distance">
 							<div class="label">移動距離</div>
-							<p id="movement-distance__distance">0.0</p>
-							<span>km</span>
-						</div> <!-- .box -->
+							<p id="movement-distance__distance"></p><span>&nbsp;km</span>
+						</div> <!-- .flexbox__item -->
 					</div> <!-- .flexbox -->
-				</div> <!-- .log -->
-				<div class="begin-btn">
-					<button class="btn begin-btn__btn">記録する</button>
-				</div> <!-- .begin-btn -->
+				</div> <!-- .traveling-info -->
+				<div class="recording-btn">
+					<button class="btn recording-btn__btn">記録する</button>
+				</div> <!-- .recording-btn -->
+				<!-- デバッグ用 -->
+				<div id="lat-lng-storage"></div>
 			</main> <!-- .page-conten -->
 		</div> <!-- .page -->
+		<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+		<script>
+		  // Initialize Firebase
+		  var config = {
+		    apiKey: "AIzaSyA3V9OurvKNO4c8yt9wgHYJqOyBQAda-gg",
+		    authDomain: "gps-logggger-html5-e80bd.firebaseapp.com",
+		    databaseURL: "https://gps-logggger-html5-e80bd.firebaseio.com",
+		    projectId: "gps-logggger-html5-e80bd",
+		    storageBucket: "gps-logggger-html5-e80bd.appspot.com",
+		    messagingSenderId: "534606135612"
+		  };
+		  firebase.initializeApp(config);
+		</script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCblR2AW8TrI2-2sGl-13TVcEgHP9VzFhg&libraries=geometr">
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCblR2AW8TrI2-2sGl-13TVcEgHP9VzFhg&libraries=geometry">
     </script>
 		<script src="scripts/geolocation.js"></script>
 	</body>
