@@ -36,6 +36,7 @@
   window.onload = function(){
     getCurrentPosition(); // 現在位置を取得する.
     recording_date_id.innerHTML = getCurrentDate(); // 現在日を取得する.
+    getMovementDistance(latitude_storage, longitude_storage); // 移動距離を取得する.
 
     // 位置情報を記録する
     recording_btn_id.click(function(){
@@ -58,8 +59,7 @@
         viewCurrentPosition(latitude_id, longitude_id, latitude, longitude);
         // 位置情報をストレージに追加する
         addCurrentPositionToStorage(latitude, longitude, latitude_storage, longitude_storage);
-        // 移動距離を取得する
-        getMovementDistance(latitude_storage, longitude_storage);
+
         console.log(latitude, longitude, getCurrentDateTime()); // デバッグ用.
       }, errorGetPosition); // 位置情報取得のエラーハンドリング.
     }
@@ -97,6 +97,7 @@
       lat_storage.push(lat);
       lng_storage.push(lng);
       viewGooglemap(lat, lng); // Google Mapsを表示する.
+      getMovementDistance(lat_storage, lng_storage); // 移動距離を取得する.
     }
 
     viewLatLngStorage(latitude_storage, longitude_storage); // デバッグ用.
@@ -217,6 +218,9 @@
     var begin_position = new google.maps.LatLng({lat: lat_begin, lng: lng_begin});
     var end_position = new google.maps.LatLng({lat: lat_end, lng: lng_end});
     var distance = google.maps.geometry.spherical.computeDistanceBetween(begin_position, end_position);
+
+    // 移動距離を正規化する
+    distance = Math.round(distance); // Meter.
 
     return distance;
   }
