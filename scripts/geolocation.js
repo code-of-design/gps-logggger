@@ -3,32 +3,42 @@
 (function($){
   "use strict";
 
-  // SET UP
+  // 現在位置
   var latitude = null; // 緯度.
   var longitude = null; // 経度.
   var latitude_storage = []; // 緯度ストレージ.
   var longitude_storage = []; // 経度ストレージ.
+  var CURRENT_POSITION_INTERVAL = 5000; // 現在地取得インターバル.
+  // 記録情報
+  var current_date = null; // 現在日.
+  var recording_mode; // 記録モード.
+  // 経過時間
   var lapsed_time = {
     hour: 0,
     minute: 0,
     second: 0
-  }; // 経過時間.
-  var distance = 0; // 移動距離.
+  };
+  var LAPSED_TIME_INTERVAL = 1000; // 経過時間インターバル.
+  // 移動距離
+  var distance = 0; // 移動距離(Meter).
   var distance_storage = []; // 移動距離ストレージ.
-
-  // Dom id
+  // DOM ID
+  var googlemap_id = document.getElementById("google-map__map"); // Google Mapid.
   var latitude_id = document.getElementById("latitude"); // 緯度id.
   var longitude_id = document.getElementById("longitude"); // 経度id.
-  var googlemap_id = document.getElementById("google-map__map"); // Google Mapid.
+  var recording_date_id = document.getElementById("recording-info__date"); // 現在日id.
+  var recording_mode_id = document.getElementById("recording-info__mode"); // 記録モードid.
   var lapsed_time_id = document.getElementById("lapsed-time__time"); // 経過時間id.
-  var recording_btn_id = $(".recording-btn__btn");
+  var movement_distance_id = document.getElementById("movement-distance__distance"); // 移動距離id.
+  var recording_btn_id = $(".recording-btn__btn"); // 記録ボタンid.
 
-  // DRAW
+  // SET UP
   window.onload = function(){
     getCurrentPosition(); // 現在位置を取得する.
-    recording_btn_id.click(function(){ // 位置情報を記録する.
-      setInterval(getLapsedTime, 1000); // 経過時間を取得する.
-      setInterval(getCurrentPosition, 5000); // 現在位置を取得する.
+    // 位置情報を記録する
+    recording_btn_id.click(function(){
+      setInterval(getLapsedTime, LAPSED_TIME_INTERVAL); // 経過時間を取得する.
+      setInterval(getCurrentPosition, CURRENT_POSITION_INTERVAL); // 現在位置を取得する.
     });
   };
 
