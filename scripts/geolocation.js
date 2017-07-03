@@ -4,8 +4,8 @@
   "use strict";
 
   // 現在位置
-  var latitude = null; // 緯度.
-  var longitude = null; // 経度.
+  var latitude = 0.0; // 緯度.
+  var longitude = 0.0; // 経度.
   var latitude_storage = []; // 緯度ストレージ.
   var longitude_storage = []; // 経度ストレージ.
   var CURRENT_POSITION_INTERVAL = 5000; // 現在地取得インターバル.
@@ -35,6 +35,8 @@
   // SET UP
   window.onload = function(){
     getCurrentPosition(); // 現在位置を取得する.
+    recording_date_id.innerHTML = getCurrentDate(); // 現在日を取得する.
+
     // 位置情報を記録する
     recording_btn_id.click(function(){
       setInterval(getLapsedTime, LAPSED_TIME_INTERVAL); // 経過時間を取得する.
@@ -55,8 +57,8 @@
         // 現在位置を表示する.
         viewCurrentPosition(latitude_id, longitude_id, latitude, longitude);
         // 位置情報をストレージに追加する.
-        addPositionToStorage(latitude, longitude, latitude_storage, longitude_storage);
-        console.log(latitude, longitude, getCurrentTime());
+        addCurrentPositionToStorage(latitude, longitude, latitude_storage, longitude_storage);
+        console.log(latitude, longitude, getCurrentDateTime());
       }, errorGetPosition); // 位置情報取得のエラーハンドリング.
     }
   }
@@ -67,25 +69,35 @@
     lng_id.innerHTML = "LNG: " + lng;
   }
 
-  // 位置情報をストレージに追加する
-  function addPositionToStorage(lat, lng, lat_storage, lng_storage){
-    var length = lat_storage.length;
-    var lat_d = lat_storage[length-1] - lat;
-    var lng_d = lng_storage[length-1] - lng;
-    var d = 0.005;
-    if (length == 0) {
+  // 現在位置を位置情報ストレージに追加する
+  function addCurrentPositionToStorage(lat, lng, lat_storage, lng_storage){
+    var storage_length = lat_storage.length; // 位置情報ストレージの大きさ.
+    var lat_differ = 0.0; // 位置情報ストレージと現在位置の差分.
+    var lng_differ = 0.0;
+    var POSITION_DESISION = 0.002; // 現在位置を位置情報ストレージに追加する判定値.
+
+    // 初期化の位置情報を取得する
+    if (storage_length == 0) {
       lat_storage.push(lat);
       lng_storage.push(lng);
       viewGooglemap(lat, lng); // Google Mapsを表示する.
     }
-    else if ((lat_d >= d) || (lat_d <= (-1)*d ) || (lng_d >= d) || (lng_d <= (-1)*d)) {
+
+    // 位置情報ストレージと現在位置の差分を取得する
+    if (storage_length > 0) {
+        lat_differ = lat_storage[storage_length-1] - lat;
+        lng_differ = lng_storage[storage_length-1] - lng;
+    }
+
+    // 現在位置を位置情報ストレージに追加する
+    if ((lat_differ >= POSITION_DESISION) || (lat_differ <= (-1)*POSITION_DESISION) ||
+    (lng_differ >= POSITION_DESISION) || (lng_differ <= (-1)*POSITION_DESISION)) {
       lat_storage.push(lat);
       lng_storage.push(lng);
       viewGooglemap(lat, lng); // Google Mapsを表示する.
-      console.log("PUSH: LAT LNG");
     }
-    viewLatLngStorage(latitude_storage, longitude_storage);
-    console.log("differ:",lat_d, lng_d,"storage:",lat_storage,lng_storage);
+
+    viewLatLngStorage(latitude_storage, longitude_storage); // デバッグ用.
   }
 
   // 位置情報取得のエラーハンドリング
@@ -93,8 +105,8 @@
     alert(error.code + ": " + error.message);
   }
 
-  // 位置情報のストレージを表示する.
-  function viewLatLngStorage(lat_storage, lng_storage){
+  // 位置情報のストレージを表示する
+  function viewLatLngStorage(lat_storage, lng_storage){ // デバッグ用.
     var lat_lng_storage_id = document.getElementById("lat-lng-storage");
     lat_lng_storage_id.innerHTML = lat_storage + "<br>" + lng_storage + "<br>";
   }
@@ -114,15 +126,32 @@
   }
 
   // 現在日時を取得する
-  function getCurrentTime(){
-    var current_date = new Date();
-    var y = current_date.getFullYear();
-    var m = current_date.getMonth();
-    var d = current_date.getDate();
-    var h = current_date.getHours();
-    var m = current_date.getMinutes();
-    var s = current_date.getSeconds();
+  function getCurrentDateTime(){
+    var current_date_time = new Date();
+
+    return current_date_time;
+  }
+
+  // 現在日を取得する
+  function getCurrentDate(){
+    var current_date_time = new Date();
+    var y = current_date_time.getFullYear();
+    var m = current_date_time.getMonth()+1; // getMonth()は0~11表現.
+    var d = current_date_time.getDate();
+    var current_date = y+"/"+m+"/"+d;
+    console.log(y, m, d);
     return current_date;
+  }
+
+  // 現在時間を取得する
+  function getCurrentTime(){
+    var current_date_time = new Date();
+    var h = current_date_time.getHours();
+    var m = current_date_time.getMinutes();
+    var s = current_date_time.getSeconds();
+    var current_time = h+":"+m+":"+s;
+
+    return current_time;
   }
 
   // 経過時間を取得する
