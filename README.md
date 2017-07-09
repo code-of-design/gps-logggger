@@ -1,2 +1,2 @@
-# GPS LOGGER v1.0
-位置情報と移動距離を記録するGPSロガー
+# GPS LOGGGGER v1.1
+位置情報を記録しよう

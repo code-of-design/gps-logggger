@@ -1,7 +1,16 @@
-// GPS LOGGER v1.0
+// GPS LOGGGGER v1.1
+// 位置情報を記録しよう
 // https://github.com/code-of-design/gps-logggger-html5
 
-// Font
+// Font-size
+$font-heading: 24px;
+$font-title: 20px;
+$font-subheading: 16px;
+$font-body: 18px;
+$font-caption: 12px;
+$font-button: 14px;
+
+// Font-family
 $sans-bold: "SourceHanSansJP-Bold";
 $sans-regular: "SourceHanSansJP-Regular";
 @font-face{ // Bold.
@@ -16,138 +25,41 @@ $sans-regular: "SourceHanSansJP-Regular";
 // Color
 $pantone-blue-bell: #92B5D9;
 $pantone-white-c: #FFFFFF;
-$pantone-paradise-green: #B2E79F;
-
-// .Page
-$page-border-size: 0px;
-$page-letter-spacing: 2px;
-$page-padding: 25px;
-
-@mixin page-border($padding-top-bottom, $padding-left-right){
-	margin: 0px;
-	border: $page-border-size solid $pantone-blue-bell;
-	border-bottom: hidden;
-	padding: $padding-top-bottom $padding-left-right;
-}
+$pantone-black-c: #2D2926;
 
 body{
-	background-color: $pantone-blue-bell;
+	margin: 0px;
+	padding: 0px;
 }
 
 // Page
+$page-padding: 25px;
+$page-letter-space: 2px;
+
 .page{
 	font-family: $sans-bold;
-	letter-spacing: $page-letter-spacing;
-	font-size: 20px;
-	color: $pantone-white-c;
+	font-size: $font-body;
+	letter-spacing: $page-letter-space;
+	color: $pantone-blue-bell;
+	padding: $page-padding;
 }
-// Header
+
+// Page Header
 .page-header{
-	margin: 0px;
-	padding: 0px;
-	.logo{
-		@include page-border(15px, $page-padding);
-		border-bottom: $page-border-size solid $pantone-blue-bell;
-		h1{
-			margin-bottom: 10px;
-			font-size: 28px;
-		}
-	}
-	.logo__label{
-		font-size: 16px;
-	}
+
 }
-// Main
+
+// Page Content
 .page-content{
-	margin: 0px;
-	padding: 0px;
+
 }
-// Google maps
+
+// Page Footer
+.page-footer{
+
+}
+
 .google-map{
-	padding: 0px $page-padding;
-	#google-map__map{
-		height: 200px;
-		background-color: #dfdfdf;
-	}
-}
-// 走行情報
-.traveling-info{
-	@include page-border(15px, $page-padding);
-	padding-bottom: 0px;
-	.label{
-		margin-bottom: 10px;
-	}
-}
-.flexbox{
-	display: flex;
-	margin-bottom: 15px;
-}
-.flexbox__item{
-	margin-right: 20px;
-	p{
-		margin-bottom: 10px;
-	}
-}
-// 現在位置
-.current-position{
-	width: 167px;
-	p{
-		font-size: 18px;
-	}
-}
-// 記録情報
-.recording-info{
-	margin-right: 0px;
-	p{
-		font-size: 18px;
-	}
-	#recording-info__date{
-
-	}
-	#recording-info__mode{
-		padding: 6px;
-		font-size: 14px;
-		background-color: $pantone-paradise-green;
-		.mode-icon{
-			font-size: 16px;
-			color: $pantone-white-c;
-			vertical-align: baseline;
-		}
-	}
-}
-// 経過時間
-.lapsed-time{
-		#lapsed-time__time{
-			font-size: 36px;
-		}
-}
-// 移動距離
-.movement-distance{
-	margin-right: 0px;
-	#movement-distance__distance{
-		font-size: 36px;
-		display: inline-block;
-	}
-}
-// 記録ボタン
-.btn{
-	border: none;
-	letter-spacing: $page-letter-spacing;
-	font-family: $sans-bold;
-}
-.recording-btn{
-	@include page-border(0px, $page-padding);
-	border-bottom: $page-border-size solid $pantone-blue-bell;
-	.recording-btn__btn{
-		width: 100%;
-		padding: 20px 20px;
-		font-size: 36px;
-		background-color: $pantone-white-c;
-		color: $pantone-blue-bell;
-	}
-}
-
-// 位置情報ストレージ
-#lat-lng-storage{
-	@include page-border(15px, $page-padding);
+	width: 100%;
+	height: 200px;
 }
