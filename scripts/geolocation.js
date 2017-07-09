@@ -11,6 +11,7 @@ var gps = {
     PROGRESS_TIME: $(".progress-time > .time > .value"),
     MOVING_DISTANCE: $(".moving-distance > .distance > .value")
   },
+  mode: null,
   lat: null,
   lng: null,
   lat_storage: [],
@@ -25,6 +26,7 @@ var gps = {
   GET_POSITION_INTERVAL: 5000,
 
   init: function(){
+    gps.mode = this.config.MODE.WAIT;
     this.viewCurrentPosition("000.000", "000.000");
     this.viewProgressTime(this.progress_time.h, this.progress_time.m, this.progress_time.s);
     this.viewMovingDistance(this.moving_distance);
@@ -120,6 +122,15 @@ var gps = {
   }
 };
 
+gps.config = {
+  MODE: {
+    RUN: "run",
+    WAIT: "wait",
+    SUCCESS: "success",
+    ERROR: "error"
+  }
+};
+
 var google_map = {
   CLASS: $(".google-map"),
   map: null,
@@ -153,14 +164,28 @@ var record_btn = {
   CLASS: $(".btn-record"),
   LABEL:{
     WAIT: "記録する",
-    RUN: "記録中"
+    RUN: "記録中",
+    SUCCESS: "記録完了",
+    ERROR: "記録エラー"
+  },
+  timer: {
+    time: null,
+    position: null
   },
 
   onClick: function(){
     this.CLASS.click(function(){
-      $(".btn-record > .label").text(record_btn.LABEL.RUN);
-      setInterval(gps.countProgressTime, gps.PROGRESS_TIME_INTERVAL);
-      setInterval(getCurrentPosition, gps.GET_POSITION_INTERVAL);
+      if (gps.mode === "wait") {
+        $(".btn-record > .label").text(record_btn.LABEL.RUN);
+        record_btn.timer.time = setInterval(gps.countProgressTime, gps.PROGRESS_TIME_INTERVAL);
+        record_btn.timer.position = setInterval(getCurrentPosition, gps.GET_POSITION_INTERVAL);
+        gps.mode = gps.config.MODE.RUN;
+      }
+      else if(gps.mode === "run") {
+        $(".btn-record > .label").text(record_btn.LABEL.SUCCESS);
+        clearInterval(record_btn.timer.time);
+        clearInterval(record_btn.timer.position);
+      }
     });
   }
 };
