@@ -22,7 +22,7 @@ var gps = {
   },
   PROGRESS_TIME_INTERVAL: 1000,
   moving_distance: 0,
-  GET_POSITION_INTERVAL: 3000,
+  GET_POSITION_INTERVAL: 5000,
 
   init: function(){
     this.viewCurrentPosition("000.000", "000.000");
@@ -30,20 +30,16 @@ var gps = {
     this.viewMovingDistance(this.moving_distance);
   },
 
-  setCurrentPosition: function(lat, lng){
-    this.lat = lat;
-    this.lng = lng;
-  },
-
   addCurrentPositionToStorage: function(lat, lng, lat_storage, lng_storage){
     var storage_lng = lat_storage.length;
     var lat_diff = 0.0;
     var lng_diff = 0.0;
-    var DISITION = 0.01;
+    var DISITION = 0.001;
 
     if (storage_lng <= 0) {
       lat_storage.push(lat);
       lng_storage.push(lng);
+      this.viewPositionStorage(lat, lng);
     }
     else {
       lat_diff = lat_storage[storage_lng-1] - lat;
@@ -54,7 +50,8 @@ var gps = {
     (lng_diff >= DISITION) || (lng_diff <= (-1)*DISITION)) {
       lat_storage.push(lat);
       lng_storage.push(lng);
-      this.getMovingDistance(lat, lng);
+      this.viewPositionStorage(lat, lng) ;
+      this.getMovingDistance(lat_storage, lng_storage);
     }
   },
 
@@ -84,7 +81,7 @@ var gps = {
     var end_position = new google.maps.LatLng({lat: lat_end, lng: lng_end});
     var distance = google.maps.geometry.spherical.computeDistanceBetween(begin_position, end_position);
 
-    distance = Math.round(distance); // Meter.
+    distance = Math.round(distance);
 
     return distance;
   },
@@ -92,12 +89,10 @@ var gps = {
   getMovingDistance: function(lat_storage, lng_storage){
     var storage_lng = lat_storage.length;
 
-    if (storage_length >= 2) {
-      this.moving_distance += this.getTwoPositionDistance(lat_storage[storage_length-1], lng_storage[storage_length-1],
-      lat_storage[storage_length-2], lng_storage[storage_length-2]);
-      console.log(this.moving_distance); // DEBUG.
+    if (storage_lng >= 2) {
+      this.moving_distance += this.getTwoPositionDistance(lat_storage[storage_lng-1], lng_storage[storage_lng-1],
+      lat_storage[storage_lng-2], lng_storage[storage_lng-2]);
     }
-
     this.viewMovingDistance(this.moving_distance);
   },
 
@@ -118,6 +113,10 @@ var gps = {
     distance = (distance*0.001).toFixed(1);
 
     this.CLASS.MOVING_DISTANCE.text(distance);
+  },
+
+  viewPositionStorage: function(lat, lng){
+    $(".position-storage tr:last").after("<tr><td>"+lat+"|</td><td>"+lng+"</td></tr>");
   }
 };
 
@@ -152,9 +151,14 @@ var google_map = {
 
 var record_btn = {
   CLASS: $(".btn-record"),
+  LABEL:{
+    WAIT: "記録する",
+    RUN: "記録中"
+  },
 
   onClick: function(){
     this.CLASS.click(function(){
+      $(".btn-record > .label").text(record_btn.LABEL.RUN);
       setInterval(gps.countProgressTime, gps.PROGRESS_TIME_INTERVAL);
       setInterval(getCurrentPosition, gps.GET_POSITION_INTERVAL);
     });
@@ -175,9 +179,10 @@ function getCurrentPosition() {
       lat = parseFloat(lat.toFixed(3));
       lng = parseFloat(lng.toFixed(3));
 
-      // gps.setCurrentPosition(lat, lng);
       google_map.viewGoogleMap(lat, lng);
-      gps.addCurrentPositionToStorage(gps.lat, gps.lng, gps.lat_storage, gps.lng_storage);
+
+      gps.addCurrentPositionToStorage(lat, lng, gps.lat_storage, gps.lng_storage);
+
       gps.viewCurrentPosition(lat, lng);
 
       console.log("getCurrentPosition()", lat, lng); // DEBUG.
